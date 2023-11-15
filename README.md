@@ -45,13 +45,13 @@ To get started with our project, follow these steps:
 1. **Clone the Repository**: Start by cloning this GitHub repository to your local machine using the following command:
 
     ```bash
-    git clone https://github.com/tahayass/FSeg.git
+    git clone https://github.com/Esupartners/Fseg-app.git
     ```
 
 2. **Navigate to the Project Directory**: Change your current directory to the project's root directory:
 
     ```bash
-    cd FSeg
+    cd FSeg-app
     ```
 
 3. **Create a Conda Environment**: We recommend using [Anaconda](https://www.anaconda.com/) for managing Python environments. If you don't have Anaconda installed, you can download and install it from their website.
@@ -77,12 +77,57 @@ That's it! You've successfully set up the project on your local machine using Co
 
 ## Usage
 
+The main functionality is provided through the pipeline function in the main.py script. This function takes care of running the entire pipeline, including:
+1. Detecting food items and their bounding boxes using YOLOv5.
+2. Preparing image embeddings using a SAM model.
+3. Detecting packaged food items and their bounding boxes using YOLOv5.
+4. Generating masks for food items using the segmentation model.
+5. Calculating the surface area of each food item to estimate its quantity.
+6. Visualizing the results and saving the output image.
+
+To use the pipeline, you can customize the **options** (**weights** and **source**) in the main.py script and then run:
+  ```bash
+    python main.py 
+  ```
+ **Options:**
+weights: Path to the YOLOv5 weights file for detecting food items.
+weights_packagedfood: Path to the YOLOv5 weights file for detecting packaged food items.
+source: Path to the input image.
+data: Path to the dataset configuration file (YAML) used for YOLOv5.
+imgsz: Tuple specifying the input image size for inference.
+conf_thres: Confidence threshold for YOLOv5 detections.
+iou_thres: IOU threshold for non-maximum suppression.
+max_det: Maximum number of detections per image.
+device: Device for running the inference (e.g., 'cuda' or 'cpu').
+view_img: Flag to display the results.
+save: Flag to save the results.
+save_txt: Flag to save results to text files.
+save_csv: Flag to save results in CSV format.
+save_conf: Flag to save confidences in --save-txt labels.
+save_crop: Flag to save cropped prediction boxes.
+nosave: Flag to disable saving images/videos.
+classes: Filter by class for YOLOv5 detections.
+agnostic_nms: Flag for class-agnostic non-maximum suppression.
+augment: Flag for augmented inference.
+visualize: Flag to visualize features.
+update: Flag to update all models.
+project: Path to the directory for saving results.
+name: Name for saving results.
+exist_ok: Flag for allowing existing project/name (do not increment).
+line_thickness: Bounding box thickness in pixels.
+hide_labels: Flag to hide labels in the visualization.
+hide_conf: Flag to hide confidences in the visualization.
+half: Flag to use FP16 half-precision inference.
+dnn: Flag to use OpenCV DNN for ONNX inference.
+vid_stride: Video frame-rate stride.
+
+
 To use our project for food detection, follow these steps:
 
 1. **Run the Food Detection Script**: Open your terminal and navigate to the project directory if you're not already there. Then, use the following command to run the food detection script:
 
     ```bash
-    python main.py --weights PlateDetection/latest_food_detection_model --source path/to/your/test_image.jpg
+    python main.py 
     ```
 
    - `--weights PlateDetection/latest_food_detection_model`: This part of the command specifies the path to the latest model uploaded for food detection. You should replace `PlateDetection/latest_food_detection_model` with the actual path to the model file you want to use.
