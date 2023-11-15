@@ -106,7 +106,7 @@ opt = {
 "augment": False,
 "visualize": False,
 "update": False,
-"project": "./FSeg/PlateDetection/runs/detect",
+"project": "./FSeg-app/PlateDetection/runs/detect",
 "name": "exp",
 "exist_ok": False,
 "line_thickness": 3,
