@@ -1,4 +1,4 @@
-# Fseg - Solution for Food Detection, Segmentation, and Nutrition Value Calculation
+# Fseg-app - Solution for Food Detection, Segmentation, and Nutrition Value Calculation
 
 ## Table of Contents
 - [Description](#description)
