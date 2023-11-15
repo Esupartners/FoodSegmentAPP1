@@ -82,7 +82,44 @@ The main functionality is provided through the pipeline function in the main.py 
 5. Calculating the surface area of each food item to estimate its quantity.
 6. Visualizing the results and saving the output image.
 
-To use the pipeline, you can customize the **options** (**weights**,**weights_packagedfood** and **source**) in the main.py script and then run:
+To use the pipeline, you can customize the **options** (**weights**,**weights_packagedfood** and **source**) in the main.py script by modifying the opt variable
+# Example usage:
+```bash
+opt = {
+"weights": "./PlateDetection/bestnewdataset.pt",
+"weights_packagedfood": "./PlateDetection/best5food.pt",
+"source": "./PlateDetection/data/images",
+"data": "./PlateDetection/data/coco128.yaml",
+"imgsz": (640, 640),
+"conf_thres": 0.25,
+"iou_thres": 0.45,
+"max_det": 1000,
+"device": "",
+"view_img": False,
+"save_txt": False,
+"save_csv": False,
+"save_conf": False,
+"save_crop": False,
+"nosave": False,
+"classes": None,
+"agnostic_nms": False,
+"augment": False,
+"visualize": False,
+"update": False,
+"project": "./FSeg/PlateDetection/runs/detect",
+"name": "exp",
+"exist_ok": False,
+"line_thickness": 3,
+"hide_labels": False,
+"hide_conf": False,
+"half": False,
+"dnn": False,
+"vid_stride": 1,
+"segmentation_model_type": "vit_h",
+"save": True
+}
+```
+and then run:
   ```bash
     python main.py 
   ```
