@@ -656,7 +656,7 @@ if __name__ == '__main__':
     # Define Arguments of Food Detection
     opt = {
         "weights": "./PlateDetection/bestnewdataset.pt",
-        "weights_packagedfood" : "./PlateDetection/best5food.pt",
+        "weights_packagedfood" : "./PlateDetection/best5foodV3.pt",
         "segmentation_model_type": "vit_b",
         "source": "./uploads/set1.jpg",
         "data": "./PlateDetection/data/coco128.yaml",
