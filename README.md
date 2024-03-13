@@ -88,6 +88,7 @@ To use the pipeline, you can customize the **options** (**weights**,**weights_pa
 opt = {
 "weights": "./PlateDetection/bestnewdataset.pt",
 "weights_packagedfood": "./PlateDetection/best5food.pt",
+"segmentation_model_type": "vit_b",
 "source": "./PlateDetection/data/images",
 "data": "./PlateDetection/data/coco128.yaml",
 "imgsz": (640, 640),
@@ -127,6 +128,7 @@ and then run:
 - weights: Path to the YOLOv5 weights file for detecting food items.
 - weights_packagedfood: Path to the YOLOv5 weights file for detecting packaged food items.
 - source: Path to the input image.
+- segmentation_model_type: Type of SAM model to use for segmentation. (vit_b < vit_l < vit_h)
 - data: Path to the dataset configuration file (YAML) used for YOLOv5.
 - imgsz: Tuple specifying the input image size for inference.
 - conf_thres: Confidence threshold for YOLOv5 detections.
