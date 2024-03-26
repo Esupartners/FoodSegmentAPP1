@@ -4,7 +4,7 @@ import numpy as np
 from FoodAreaSegmentation.utils import format_bbox
 from detect_coin import detect_coin
 
-def get_circle_or_rectangle(image, is_coin=True):
+def get_circle_or_rectangle(image, show=False):
 
     #Detections
     classes,boxes,scores = detect_coin(image_path=image,model_path=r'best.pt')
@@ -15,14 +15,18 @@ def get_circle_or_rectangle(image, is_coin=True):
     else:
       is_coin=False
     
-    roi = format_bbox(boxes[0]) 
-    # Extract bounding box coordinates
-    x, y, w, h = map(int,roi)
+    #Enlarge the bounding box
+    boxes[0][2] = boxes[0][2]*1.1
+    boxes[0][3] = boxes[0][3]*1.1
 
-    w = int(w*1.2)
-    h = int(h*1.2)
+    #format bbox
+    roi = format_bbox(boxes[0])
+
+    # Extract bounding box coordinates
+    x0, y0, x1, y1 = map(int,roi)
+
     # Crop the region containing the coin or bill
-    roi_patch = image[y:y+h, x:x+w]
+    roi_patch = image[y0:y1, x0:x1]
 
     # Convert to grayscale
     gray = cv2.cvtColor(roi_patch, cv2.COLOR_BGR2GRAY)
@@ -33,25 +37,27 @@ def get_circle_or_rectangle(image, is_coin=True):
     # Detect edges using Canny edge detector
     edges = cv2.Canny(blurred, 50, 150)
 
-    # Apply dilation to close small gaps in the contour
-    kernel = np.ones((5,5),np.uint8)
-    dilated = cv2.dilate(edges, kernel, iterations=1)
+    kernel_open = np.ones((2,2),np.uint8)
+    kernel_close = np.ones((3,3),np.uint8)
+    edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel_close)
+    #edges = cv2.morphologyEx(edges, cv2.MORPH_OPEN, kernel_open)
 
     # Find contours
-    contours, _ = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Get the largest contour (assuming it's the coin or bill)
-    largest_contour = max(contours, key=cv2.contourArea)
+    largest_contour = max(contours, key=lambda x: cv2.arcLength(x, closed=False))
 
     # If it's a coin
     if is_coin:
         # Get the center and radius of the circle
         ((center_x, center_y), radius) = cv2.minEnclosingCircle(largest_contour)
-        center = (int(center_x) + x, int(center_y) + y)
+        center = (int(center_x) + x0, int(center_y) + y0)
         radius = int(radius)
 
-        # Draw the circle on the original image
-        cv2.circle(image, center, radius, (0, 255, 0), 2)
+        if show:
+            # Draw the circle on the original image
+            cv2.circle(image, center, radius, (0, 255, 0), 2)
 
         # Return diameter and center coordinates
         diameter = 2 * radius
@@ -59,14 +65,23 @@ def get_circle_or_rectangle(image, is_coin=True):
 
     # If it's a bill
     else:
-        # Get bounding rectangle around the contour
-        x_rect, y_rect, w_rect, h_rect = cv2.boundingRect(largest_contour)
-        # Adjust the rectangle coordinates to the original image
-        x_rect += x
-        y_rect += y
+        # Get minimum area bounding rectangle around the contour
+        rect = cv2.minAreaRect(largest_contour)
+        box = cv2.boxPoints(rect)
+        box = np.intp(box)
 
-        # Draw the rectangle on the original image
-        cv2.rectangle(image, (x_rect, y_rect), (x_rect + w_rect, y_rect + h_rect), (0, 255, 0), 2)
+        
+        if show:
+            # Draw the rotated rectangle on the original image
+            box += np.array([[x0, y0]])
+            cv2.drawContours(image, [box], 0, (0, 255, 0), 2)
+
+        # Calculate the width and height of the rotated rectangle
+        (x, y), (w_rect, h_rect), angle = rect
+
+        # Adjust the rectangle coordinates to the original image
+        x_rect = x + x0
+        y_rect = y + y0
 
         # Return rectangle coordinates
         return (x_rect, y_rect, w_rect, h_rect)
