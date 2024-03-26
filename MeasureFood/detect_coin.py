@@ -30,5 +30,6 @@ def detect_coin(image_path=None,model_path=MODEL_PATH):
 
     bounding_boxes = results.boxes.xywh
     scores = results.boxes.conf
+    classes = results.boxes.cls
 
-    return bounding_boxes.cpu(), scores
+    return classes.cpu().numpy(),bounding_boxes.cpu().numpy(), scores.cpu().numpy()

@@ -6,7 +6,15 @@ from detect_coin import detect_coin
 
 def get_circle_or_rectangle(image, is_coin=True):
 
-    boxes,scores = detect_coin(image_path=image,model_path=r'best.pt')
+    #Detections
+    classes,boxes,scores = detect_coin(image_path=image,model_path=r'best.pt')
+
+    #Detect if it's a coin or a bill
+    if int(classes[0]) in [0,1,2]:
+      is_coin=True
+    else:
+      is_coin=False
+    
     roi = format_bbox(boxes[0]) 
     # Extract bounding box coordinates
     x, y, w, h = map(int,roi)
