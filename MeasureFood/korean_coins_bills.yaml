@@ -1,0 +1,24 @@
+0:
+  diameter_mm: 20.4
+  name: "10 Won Coin"
+1:
+  diameter_mm: 21.6
+  name: "50 Won Coin"
+2:
+  diameter_mm: 24.0
+  name: "100 Won Coin"
+3:
+  diameter_mm: 26.5
+  name: "500 Won Coin"
+4:
+  diameter_mm: 152.05
+  name: "1000 Won Bill"
+5:
+  diameter_mm: 157.44
+  name: "5000 Won Bill"
+6:
+  diameter_mm: 162.87
+  name: "10000 Won Bill"
+7:
+  diameter_mm: 168.35
+  name: "50000 Won Bill" 

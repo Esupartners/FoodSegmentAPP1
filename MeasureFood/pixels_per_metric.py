@@ -1,8 +1,14 @@
 import cv2
 import numpy as np
+import yaml
 
 from FoodAreaSegmentation.utils import format_bbox
 from detect_coin import detect_coin
+
+def load_yaml_to_dict(file_path):
+    with open(file_path, "r") as yaml_file:
+        loaded_dict = yaml.safe_load(yaml_file)
+    return loaded_dict
 
 def get_circle_or_rectangle(image, show=False):
 
