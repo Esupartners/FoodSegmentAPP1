@@ -655,15 +655,15 @@ if __name__ == '__main__':
     
     # Define Arguments of Food Detection
     opt = {
-        "weights": "./PlateDetection/bestnewdataset.pt",
+        "weights": "./PlateDetection/best100food.pt",
         "weights_packagedfood" : "./PlateDetection/best5foodV3.pt",
         "segmentation_model_type": "vit_b",
-        "source": "./uploads/set1.jpg",
+        "source": "./0.jpg",
         "data": "./PlateDetection/data/coco128.yaml",
         "imgsz": (640, 640),
         "conf_thres": 0.25,
         "iou_thres": 0.45,
-        "max_det": 1000,
+        "max_det": 250,
         "device": '',  # cuda device, i.e. 0 or 0,1,2,3 or cpu
         "view_img": False,
         "save_txt": False,
